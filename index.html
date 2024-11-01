@@ -25,25 +25,14 @@
       }
     }
   </style>
-</head>
-<body>
-  <h2>Select a PDF Form</h2>
-  <select id="pdfSelect">
-    <option value="./1044_Market.pdf">1044 Market - Athena Daily Progress Report</option>
-    <option value="./form2.pdf">Form 2</option>
-    <option value="./form3.pdf">Form 3</option>
-  </select>
-  <button id="loadPDF">Load PDF</button>
-  <button id="openEmail">Email</button> 
-  <div id="pdfViewer"></div>
   <script type="module">
     import * as pdfjsLib from './pdf.mjs';
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.mjs'; 
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.mjs';
 
     async function loadSelectedPDF() {
       const selectedPDF = document.getElementById('pdfSelect').value;
       const pdfViewer = document.getElementById('pdfViewer');
-      pdfViewer.innerHTML = ''; 
+      pdfViewer.innerHTML = '';
 
       try {
         const loadingTask = pdfjsLib.getDocument(selectedPDF);
@@ -77,11 +66,21 @@
       window.open(mailtoLink);
     }
 
-    // Attach event listeners after the functions are defined
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('loadPDF').addEventListener('click', loadSelectedPDF);
       document.getElementById('openEmail').addEventListener('click', openEmail);
     });
   </script>
+</head>
+<body>
+  <h2>Select a PDF Form</h2>
+  <select id="pdfSelect">
+    <option value="./1044_Market.pdf">1044 Market - Athena Daily Progress Report</option>
+    <option value="./form2.pdf">Form 2</option>
+    <option value="./form3.pdf">Form 3</option>
+  </select>
+  <button id="loadPDF">Load PDF</button>
+  <button id="openEmail">Email</button> 
+  <div id="pdfViewer"></div>
 </body>
 </html>
