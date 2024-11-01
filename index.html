@@ -68,11 +68,11 @@
 
     #adobe-dc-view {
       width: 100%;
-      height: 60vh; /* Set height to 60% of viewport height */
+      height: 75vh;  /* Increased height for iPad */
       border: 1px solid #c00;
       border-radius: 4px;
       margin-bottom: 50px;
-      overflow: auto; /* Add scroll for both vertical and horizontal */
+      overflow: auto; 
     }
 
     h1 {
@@ -109,7 +109,7 @@
 
   document.addEventListener("adobe_dc_view_sdk.ready", function() {
     adobeDCView = new AdobeDC.View({
-      clientId: "300eb4538c6e4bcc9bcf0305e1b048e6",
+      clientId: "300eb4538c6e4bcc9bcf0305e1b048e6", 
       divId: "adobe-dc-view"
     });
   });
