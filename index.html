@@ -25,7 +25,36 @@
 <div id="adobe-dc-view"></div>
 
 <script>
-  // ... (rest of the code is the same)
+  let adobeDCView; 
+
+  document.addEventListener("adobe_dc_view_sdk.ready", function() {
+    adobeDCView = new AdobeDC.View({
+      clientId: "300eb4538c6e4bcc9bcf0305e1b048e6", 
+      divId: "adobe-dc-view"
+    });
+  });
+
+  async function loadPDF() {
+    const pdfSelect = document.getElementById("pdfSelect");
+    const pdfURL = pdfSelect.value;
+
+    try {
+      const previewConfig = {
+        showSaveButton: false,
+        showPrintButton: false,
+      };
+      await adobeDCView.previewFile(
+        {
+          content: { location: { url: pdfURL } },
+          metaData: { fileName: pdfURL }
+        },
+        previewConfig
+      );
+      document.getElementById("adobe-dc-view").scrollIntoView(); 
+    } catch (error) {
+      console.error("Error loading PDF:", error);
+    }
+  }
 
   function sendEmail() {
     const pdfSelect = document.getElementById("pdfSelect");
@@ -39,7 +68,7 @@
     // const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&attachment=${lastDownloadedFile}`; 
 
     // Instead, provide instructions or a simpler email link:
-    alert("Please attach the most recently downloaded PDF to the email.");
+    alert("Please attach the most recently downloaded PDF to the email."); 
     const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}`;
     window.location.href = mailtoLink;
   }
