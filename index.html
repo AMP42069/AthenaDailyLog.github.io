@@ -30,7 +30,7 @@
       height: auto;
     }
 
-    .instructions { /* Styles for the instructions */
+    .instructions { 
       font-size: 14px;
       color: #555; 
       margin-top: 10px; 
@@ -96,7 +96,7 @@
 <div id="container">
   <div class="header">
     <img src="athena-logo.png" alt="Athena Contracting, Inc. Logo">
-    <p class="instructions">Select a form, fill it out, download the completed form to your device, click "Email to Office" attach the downloaded form and click send.</p> 
+    <p class="instructions">Select a form, fill it out, and then email it to the office.</p> 
   </div>
 
   <label for="pdfSelect">Select a Form:</label>
@@ -119,6 +119,17 @@
       clientId: "300eb4538c6e4bcc9bcf0305e1b048e6", 
       divId: "adobe-dc-view"
     });
+
+    // Event listener for digital signatures
+    adobeDCView.registerCallback(
+      AdobeDC.View.Enum.CallbackType.EVENT_LISTENER,
+      function(event) {
+        if (event.type === AdobeDC.View.Enum.EventType.DOCUMENT_OPENED) {
+          adobeDCView.executeCommand(AdobeDC.View.Enum.CommandName.SHOW_SIGNATURE_FLOW);
+        }
+      },
+      { type: AdobeDC.View.Enum.EventType.DOCUMENT_OPENED }
+    );
   });
 
   async function loadPDF() {
