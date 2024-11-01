@@ -1,24 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>PDF Viewer</title>
+  <title>PDF Viewer with Adobe Embed API</title>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script> 
 </head>
 <body>
 
 <label for="pdfSelect">Select a PDF:</label>
 <select id="pdfSelect">
-  <option value="form1.pdf">Form 1</option>
+  <option value="1044_Market.pdf">1044 Market</option>
   <option value="form2.pdf">Form 2</option>
 </select>
 
 <button onclick="loadPDF()">Load PDF</button>
 
-<iframe id="pdfViewer" type="application/pdf" width="100%" height="600px" style="display: none;"></iframe> 
+<div id="adobe-dc-view"></div>
+
 <script>
-function loadPDF() {
-  var pdfSelect = document.getElementById("pdfSelect");
-  window.open(pdfSelect.value, '_blank'); 
-}
+  let adobeDCView; // Declare adobeDCView outside the function
+
+  document.addEventListener("adobe_dc_view_sdk.ready", function() {
+    adobeDCView = new AdobeDC.View({
+      clientId: "72d76f8ce1814bbab71879271e0f5215",
+      divId: "adobe-dc-view"
+    });
+  });
+
+  async function loadPDF() {
+    const pdfSelect = document.getElementById("pdfSelect");
+    const pdfURL = pdfSelect.value;
+
+    try {
+      const previewConfig = {
+        showSaveButton: false,
+        showPrintButton: false,
+      };
+      await adobeDCView.previewFile(
+        {
+          content: { location: { url: pdfURL } },
+          metaData: { fileName: pdfURL }
+        },
+        previewConfig
+      );
+    } catch (error) {
+      console.error("Error loading PDF:", error);
+    }
+  }
 </script>
 
 </body>
