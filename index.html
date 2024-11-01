@@ -37,45 +37,44 @@
     <button id="openEmail">Email</button> 
     <div id="pdfViewer"></div>
 
-    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+    <script src="pdf.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const loadPDFButton = document.getElementById('loadPDF');
-            const pdfSelect = document.getElementById('pdfSelect');
-            const pdfViewer = document.getElementById('pdfViewer');
+document.addEventListener('DOMContentLoaded', () => {
+    const loadPDFButton = document.getElementById('loadPDF');
+    const pdfSelect = document.getElementById('pdfSelect');
+    const pdfViewer = document.getElementById('pdfViewer');
 
-            loadPDFButton.addEventListener('click', () => {
-                const selectedPDF = pdfSelect.value;
-                
-                // Fetch the PDF
-                fetch(selectedPDF)
-                    .then(response => response.arrayBuffer())
-                    .then(buffer => {
-                        // Load the PDF with PDF.js
-                        pdfjsLib.getDocument({ data: buffer }).promise.then(pdf => {
-                            // Display the first page
-                            pdf.getPage(1).then(page => {
-                                const scale = 1.5;
-                                const viewport = page.getViewport({ scale: scale });
+    loadPDFButton.addEventListener('click', () => {
+        const selectedPDF = pdfSelect.value;
 
-                                const canvas = document.createElement('canvas');
-                                const context = canvas.getContext('2d');
-                                canvas.height = viewport.height;
-                                canvas.width = viewport.width;
+        pdfjsLib.getDocument(selectedPDF).promise.then(pdf => {
+            pdf.getPage(1).then(page => {
+                const scale = 1.5;
+                const viewport = page.getViewport({ scale: scale });
 
-                                const renderContext = {
-                                    canvasContext: context,
-                                    viewport: viewport
-                                };
-                                page.render(renderContext);
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
 
-                                pdfViewer.innerHTML = ''; // Clear previous content
-                                pdfViewer.appendChild(canvas);
-                            });
-                        });
-                    });
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                page.render(renderContext).promise.then(() => {
+                    pdfViewer.innerHTML = '';
+                    pdfViewer.appendChild(canvas);
+
+                    // Enable form filling
+                    const annotationLayer = document.createElement('div');
+                    annotationLayer.id = 'annotationLayer';
+                    pdfViewer.appendChild(annotationLayer);
+                    pdfjsLib.AnnotationLayer.setupAnnotationLayerBuilder(annotationLayer, page, /* optional: viewport */);
+                });
             });
         });
+    });
+});
     </script>
 </body>
 </html>
