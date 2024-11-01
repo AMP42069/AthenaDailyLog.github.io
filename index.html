@@ -68,10 +68,11 @@
 
     #adobe-dc-view {
       width: 100%;
-      height: calc(100vh - 300px); 
+      height: 60vh; /* Set height to 60% of viewport height */
       border: 1px solid #c00;
       border-radius: 4px;
-      margin-bottom: 50px; /* Add margin to create space below */
+      margin-bottom: 50px;
+      overflow: auto; /* Add scroll for both vertical and horizontal */
     }
 
     h1 {
