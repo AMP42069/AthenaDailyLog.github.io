@@ -1,39 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>PDF Viewer with Adobe Embed API</title>
+  <title>PDF Viewer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
   <style>
     body {
-      margin: 0; 
-      font-family: sans-serif;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      background-color: #f2f2f7; 
     }
+
+    #container {
+      padding: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #c7c7cc;
+      border-radius: 8px;
+      box-sizing: border-box;
+      appearance: none; 
+      background-color: #fff;
+      margin-bottom: 16px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #007aff; 
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+
     #adobe-dc-view {
       width: 100%;
-      height: calc(100vh - 100px); 
-    }
-    button {
-      display: block; 
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 5px;
-      box-sizing: border-box; 
+      height: calc(100vh - 200px); 
+      border: 1px solid #c7c7cc;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
 
-<label for="pdfSelect">Select a PDF:</label>
-<select id="pdfSelect">
-  <option value="1044_Market.pdf">1044 Market Daily Log</option>
-  <option value="form2.pdf">Form 2</option>
-</select>
+<div id="container">
+  <label for="pdfSelect">Select a PDF:</label>
+  <select id="pdfSelect">
+    <option value="1044_Market.pdf">1044 Market Daily Log</option>
+    <option value="form2.pdf">Form 2</option>
+  </select>
 
-<button onclick="loadPDF()">Load PDF</button>
-<button onclick="sendEmail()">Email to Office</button>
+  <button onclick="loadPDF()">Load PDF</button>
+  <button onclick="sendEmail()">Email to Office</button>
 
-<div id="adobe-dc-view"></div>
+  <div id="adobe-dc-view"></div>
+</div>
 
 <script>
   let adobeDCView;
