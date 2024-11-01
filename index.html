@@ -34,9 +34,30 @@
     });
   });
 
-  async function loadPDF() {
-    // ... (same as before)
+   async function loadPDF() {
+    const pdfSelect = document.getElementById("pdfSelect");
+    const pdfURL = pdfSelect.value;
+
+    try {
+      const previewConfig = {
+        showSaveButton: false,
+        showPrintButton: false,
+        // Add mobile-specific options if needed
+      };
+      await adobeDCView.previewFile(
+        {
+          content: { location: { url: pdfURL } },
+          metaData: { fileName: pdfURL }
+        },
+        previewConfig
+      );
+      // Optional: Scroll to the PDF viewer after loading
+      document.getElementById("adobe-dc-view").scrollIntoView(); 
+    } catch (error) {
+      console.error("Error loading PDF:", error);
+    }
   }
+
 
   function sendEmail() {
     const pdfSelect = document.getElementById("pdfSelect");
