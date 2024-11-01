@@ -2,12 +2,23 @@
 <html>
 <head>
   <title>PDF Viewer with Adobe Embed API</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
   <style>
+    body {
+      margin: 0; 
+      font-family: sans-serif;
+    }
     #adobe-dc-view {
       width: 100%;
-      height: 90vh; 
+      height: calc(100vh - 100px); 
+    }
+    button {
+      display: block; 
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 5px;
+      box-sizing: border-box; 
     }
   </style>
 </head>
@@ -20,16 +31,16 @@
 </select>
 
 <button onclick="loadPDF()">Load PDF</button>
-<button onclick="sendEmail()">Email to Office</button> 
+<button onclick="sendEmail()">Email to Office</button>
 
 <div id="adobe-dc-view"></div>
 
 <script>
-  let adobeDCView; 
+  let adobeDCView;
 
   document.addEventListener("adobe_dc_view_sdk.ready", function() {
     adobeDCView = new AdobeDC.View({
-      clientId: "300eb4538c6e4bcc9bcf0305e1b048e6", 
+      clientId: "300eb4538c6e4bcc9bcf0305e1b048e6",
       divId: "adobe-dc-view"
     });
   });
@@ -50,7 +61,7 @@
         },
         previewConfig
       );
-      document.getElementById("adobe-dc-view").scrollIntoView(); 
+      document.getElementById("adobe-dc-view").scrollIntoView();
     } catch (error) {
       console.error("Error loading PDF:", error);
     }
@@ -60,15 +71,11 @@
     const pdfSelect = document.getElementById("pdfSelect");
     const pdfName = pdfSelect.options[pdfSelect.selectedIndex].text;
     const today = new Date();
-    const dateString = today.toLocaleDateString(); 
+    const dateString = today.toLocaleDateString();
     const subject = `${pdfName} - ${dateString}`;
-    const recipient = "adam@athenacontractinginc.com"; 
+    const recipient = "adam@athenacontractinginc.com";
 
-    // This part is not possible with client-side JavaScript:
-    // const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&attachment=${lastDownloadedFile}`; 
-
-    // Instead, provide instructions or a simpler email link:
-    alert("Please attach the most recently downloaded PDF to the email."); 
+    alert("Please attach the most recently downloaded PDF to the email.");
     const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}`;
     window.location.href = mailtoLink;
   }
