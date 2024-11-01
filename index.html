@@ -1,31 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Downloadable PDF Forms</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-    }
-    h2 {
-      color: #333;
-    }
-    #pdfViewer {
-      border: 1px solid #ccc;
-      width: 90vw;
-      height: 80vh;
-      overflow: auto;
-    }
-    @media (max-width: 600px) {
-      #pdfViewer {
-        width: 100vw;
-        height: 60vh;
-      }
-    }
-  </style>
-</head>
+  </head>
 <body>
   <h2>Select a PDF Form</h2>
   <select id="pdfSelect">
@@ -33,14 +9,16 @@
     <option value="./form2.pdf">Form 2</option>
     <option value="./form3.pdf">Form 3</option>
   </select>
-  <button onclick="loadSelectedPDF()">Load PDF</button>
-  <button onclick="openEmail()">Email</button> 
+  <button id="loadPDF">Load PDF</button>
+  <button id="openEmail">Email</button> 
   <div id="pdfViewer"></div>
   <script type="module">
-    import * as pdfjsLib from './pdf.mjs';
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.mjs'; // Adjust path if necessary
-
     // ... (rest of your JavaScript code)
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('loadPDF').addEventListener('click', loadSelectedPDF);
+      document.getElementById('openEmail').addEventListener('click', openEmail);
+    });
   </script>
 </body>
 </html>
