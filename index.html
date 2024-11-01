@@ -15,14 +15,12 @@
 
 <label for="pdfSelect">Select a PDF:</label>
 <select id="pdfSelect">
-  <option value="1044_Market.pdf">1044 Market Street Daily Log</option>
+  <option value="1044_Market.pdf">Form 1</option> 
   <option value="form2.pdf">Form 2</option>
 </select>
 
 <button onclick="loadPDF()">Load PDF</button>
-<button onclick="sendEmail()">Email to Office</button> 
-
-<div id="adobe-dc-view"></div>
+<button onclick="sendEmail()">Email to Office</button> <div id="adobe-dc-view"></div>
 
 <script>
   let adobeDCView; 
@@ -34,7 +32,7 @@
     });
   });
 
-   async function loadPDF() {
+  async function loadPDF() {
     const pdfSelect = document.getElementById("pdfSelect");
     const pdfURL = pdfSelect.value;
 
@@ -42,7 +40,6 @@
       const previewConfig = {
         showSaveButton: false,
         showPrintButton: false,
-        // Add mobile-specific options if needed
       };
       await adobeDCView.previewFile(
         {
@@ -51,22 +48,20 @@
         },
         previewConfig
       );
-      // Optional: Scroll to the PDF viewer after loading
       document.getElementById("adobe-dc-view").scrollIntoView(); 
     } catch (error) {
       console.error("Error loading PDF:", error);
     }
   }
 
-
   function sendEmail() {
     const pdfSelect = document.getElementById("pdfSelect");
-    const pdfName = pdfSelect.options[pdfSelect.selectedIndex].text; 
+    const pdfName = pdfSelect.options[pdfSelect.selectedIndex].text;
     const today = new Date();
     const dateString = today.toLocaleDateString(); 
     const subject = `${pdfName} - ${dateString}`;
 
-    const recipient = "adam@athenacontractinginc.com";
+    const recipient = "adam@athenacontractinginc.com"; 
     const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(subject)}`;
 
     window.location.href = mailtoLink;
