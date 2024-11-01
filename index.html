@@ -33,8 +33,8 @@
     <option value="./form2.pdf">Form 2</option>
     <option value="./form3.pdf">Form 3</option>
   </select>
-  <button onclick="loadSelectedPDF()">Load PDF</button>
-  <button onclick="openEmail()">Email</button> 
+  <button id="loadPDF">Load PDF</button>
+  <button id="openEmail">Email</button> 
   <div id="pdfViewer"></div>
   <script type="module">
     import * as pdfjsLib from './pdf.mjs';
@@ -77,8 +77,11 @@
       window.open(mailtoLink);
     }
 
-    window.loadSelectedPDF = loadSelectedPDF; 
-    window.openEmail = openEmail; 
+    // Attach event listeners after the functions are defined
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('loadPDF').addEventListener('click', loadSelectedPDF);
+      document.getElementById('openEmail').addEventListener('click', openEmail);
+    });
   </script>
 </body>
 </html>
