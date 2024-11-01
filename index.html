@@ -7,36 +7,41 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Roboto', sans-serif; 
-      background-color: #f8f8f8; 
+      font-family: 'Roboto', sans-serif;
+      background-color: #f2f2f7; 
     }
 
     #container {
-      max-width: 600px; 
+      max-width: 600px;
       margin: 20px auto;
       padding: 20px;
       background-color: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       border-radius: 8px;
     }
 
-    h1 {
+    .header {
       text-align: center;
-      color: #29434e; 
       margin-bottom: 20px;
+    }
+
+    .header img {
+      max-width: 100%;
+      height: auto;
     }
 
     label {
       font-weight: bold;
       display: block;
       margin-bottom: 8px;
+      color: #222; 
     }
 
     select {
       width: 100%;
       padding: 12px;
-      border: 1px solid #c7c7cc;
-      border-radius: 4px; 
+      border: 1px solid #dcdcdc; 
+      border-radius: 4px;
       box-sizing: border-box;
       appearance: none;
       background-color: #fff;
@@ -45,7 +50,7 @@
     }
 
     button {
-      background-color: #f0b22a; 
+      background-color: #d9a514; 
       color: white;
       border: none;
       padding: 12px;
@@ -54,18 +59,26 @@
       width: 100%;
       font-size: 16px;
       margin-bottom: 16px;
-      transition: background-color 0.3s ease; 
+      transition: background-color 0.3s ease;
     }
 
     button:hover {
-      background-color: #e0a21a; 
+      background-color: #c99513; 
     }
 
     #adobe-dc-view {
       width: 100%;
-      height: calc(100vh - 300px);
-      border: 1px solid #c7c7cc;
+      height: calc(100vh - 300px); 
+      border: 1px solid #dcdcdc; 
       border-radius: 4px;
+    }
+
+    h1 {
+      color: #c00; 
+    }
+
+    button.email-button { 
+      background-color: #000;
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -73,7 +86,10 @@
 <body>
 
 <div id="container">
-  <h1>PDF Viewer</h1> 
+  <div class="header">
+    <img src="athena-logo.png" alt="Athena Contracting, Inc. Logo"> 
+  </div>
+
   <label for="pdfSelect">Select a PDF:</label>
   <select id="pdfSelect">
     <option value="1044_Market.pdf">1044 Market Daily Log</option>
@@ -81,7 +97,7 @@
   </select>
 
   <button onclick="loadPDF()">Load PDF</button>
-  <button onclick="sendEmail()">Email to Office</button>
+  <button onclick="sendEmail()" class="email-button">Email to Office</button> 
 
   <div id="adobe-dc-view"></div>
 </div>
@@ -91,7 +107,7 @@
 
   document.addEventListener("adobe_dc_view_sdk.ready", function() {
     adobeDCView = new AdobeDC.View({
-      clientId: "300eb4538c6e4bcc9bcf0305e1b048e6",
+      clientId: "300eb4538c6e4bcc9bcf0305e1b048e6", 
       divId: "adobe-dc-view"
     });
   });
