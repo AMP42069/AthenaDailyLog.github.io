@@ -25,52 +25,6 @@
       }
     }
   </style>
-  <script type="module">
-    import * as pdfjsLib from './pdf.mjs';
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.mjs';
-
-    async function loadSelectedPDF() {
-      const selectedPDF = document.getElementById('pdfSelect').value;
-      const pdfViewer = document.getElementById('pdfViewer');
-      pdfViewer.innerHTML = '';
-
-      try {
-        const loadingTask = pdfjsLib.getDocument(selectedPDF);
-        const pdf = await loadingTask.promise;
-
-        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-          const page = await pdf.getPage(pageNumber);
-          const scale = 1.5;
-          const viewport = page.getViewport({ scale: scale });
-
-          const canvas = document.createElement('canvas');
-          const context = canvas.getContext('2d');
-          canvas.height = viewport.height;
-          canvas.width = viewport.width;
-
-          const renderContext = {
-            canvasContext: context,
-            viewport: viewport
-          };
-          await page.render(renderContext);
-          pdfViewer.appendChild(canvas);
-        }
-      } catch (error) {
-        console.error('Error loading PDF:', error);
-        pdfViewer.innerHTML = '<p>Error loading PDF.</p>';
-      }
-    }
-
-    function openEmail() {
-      const mailtoLink = `mailto:adam@athenacontractinginc.com,bill@athenacontractinginc.com?subject=1044 Market Daily Log`;
-      window.open(mailtoLink);
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('loadPDF').addEventListener('click', loadSelectedPDF);
-      document.getElementById('openEmail').addEventListener('click', openEmail);
-    });
-  </script>
 </head>
 <body>
   <h2>Select a PDF Form</h2>
@@ -81,6 +35,19 @@
   </select>
   <button id="loadPDF">Load PDF</button>
   <button id="openEmail">Email</button> 
-  <div id="pdfViewer"></div>
+  <iframe id="pdfViewer" width="100%" height="800px"></iframe>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const loadPDFButton = document.getElementById('loadPDF');
+      const pdfSelect = document.getElementById('pdfSelect');
+      const pdfViewer = document.getElementById('pdfViewer');
+
+      loadPDFButton.addEventListener('click', () => {
+        const selectedPDF = pdfSelect.value;
+        pdfViewer.src = `viewer.html?file=${selectedPDF}`;
+      });
+    });
+  </script>
 </body>
 </html>
