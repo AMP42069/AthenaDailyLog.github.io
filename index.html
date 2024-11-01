@@ -7,19 +7,17 @@
 
 <label for="pdfSelect">Select a PDF:</label>
 <select id="pdfSelect">
-  <option value="1044_Market.pdf">1044 Market</option>
+  <option value="form1.pdf">Form 1</option>
   <option value="form2.pdf">Form 2</option>
-  </select>
+</select>
 
 <button onclick="loadPDF()">Load PDF</button>
 
-<iframe id="pdfViewer" type="application/pdf" width="100%" height="600px"></iframe>
-
+<iframe id="pdfViewer" type="application/pdf" width="100%" height="600px" style="display: none;"></iframe> 
 <script>
 function loadPDF() {
   var pdfSelect = document.getElementById("pdfSelect");
-  var pdfViewer = document.getElementById("pdfViewer");
-  pdfViewer.src = pdfSelect.value;
+  window.open(pdfSelect.value, '_blank'); 
 }
 </script>
 
