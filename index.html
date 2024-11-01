@@ -34,13 +34,13 @@
       font-weight: bold;
       display: block;
       margin-bottom: 8px;
-      color: #222; 
+      color: #c00; /* Red label color */
     }
 
     select {
       width: 100%;
       padding: 12px;
-      border: 1px solid #dcdcdc; 
+      border: 1px solid #c00; /* Red border */
       border-radius: 4px;
       box-sizing: border-box;
       appearance: none;
@@ -69,7 +69,7 @@
     #adobe-dc-view {
       width: 100%;
       height: calc(100vh - 300px); 
-      border: 1px solid #dcdcdc; 
+      border: 1px solid #c00; /* Red border */
       border-radius: 4px;
     }
 
@@ -78,7 +78,7 @@
     }
 
     button.email-button { 
-      background-color: #000;
+      background-color: #000; 
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -87,7 +87,7 @@
 
 <div id="container">
   <div class="header">
-    <img src="athena-logo.png" alt="Athena Contracting, Inc. Logo"> 
+    <img src="athena-logo.png" alt="Athena Contracting, Inc. Logo">
   </div>
 
   <label for="pdfSelect">Select a PDF:</label>
@@ -97,7 +97,7 @@
   </select>
 
   <button onclick="loadPDF()">Load PDF</button>
-  <button onclick="sendEmail()" class="email-button">Email to Office</button> 
+  <button onclick="sendEmail()" class="email-button">Email to Office</button>
 
   <div id="adobe-dc-view"></div>
 </div>
@@ -120,7 +120,7 @@
       const previewConfig = {
         showSaveButton: false,
         showPrintButton: false,
-        zoom: 'FitWidth'
+        zoom: 'FitWidth' 
       };
       await adobeDCView.previewFile(
         {
