@@ -1,7 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  </head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Downloadable PDF Forms</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+    }
+    h2 {
+      color: #333;
+    }
+    #pdfViewer {
+      border: 1px solid #ccc;
+      width: 90vw;
+      height: 80vh;
+      overflow: auto;
+    }
+    @media (max-width: 600px) {
+      #pdfViewer {
+        width: 100vw;
+        height: 60vh;
+      }
+    }
+  </style>
+</head>
 <body>
   <h2>Select a PDF Form</h2>
   <select id="pdfSelect">
@@ -9,16 +33,52 @@
     <option value="./form2.pdf">Form 2</option>
     <option value="./form3.pdf">Form 3</option>
   </select>
-  <button id="loadPDF">Load PDF</button>
-  <button id="openEmail">Email</button> 
+  <button onclick="loadSelectedPDF()">Load PDF</button>
+  <button onclick="openEmail()">Email</button> 
   <div id="pdfViewer"></div>
   <script type="module">
-    // ... (rest of your JavaScript code)
+    import * as pdfjsLib from './pdf.mjs';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.mjs'; 
 
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('loadPDF').addEventListener('click', loadSelectedPDF);
-      document.getElementById('openEmail').addEventListener('click', openEmail);
-    });
+    async function loadSelectedPDF() {
+      const selectedPDF = document.getElementById('pdfSelect').value;
+      const pdfViewer = document.getElementById('pdfViewer');
+      pdfViewer.innerHTML = ''; 
+
+      try {
+        const loadingTask = pdfjsLib.getDocument(selectedPDF);
+        const pdf = await loadingTask.promise;
+
+        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+          const page = await pdf.getPage(pageNumber);
+          const scale = 1.5;
+          const viewport = page.getViewport({ scale: scale });
+
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+
+          const renderContext = {
+            canvasContext: context,
+            viewport: viewport
+          };
+          await page.render(renderContext);
+          pdfViewer.appendChild(canvas);
+        }
+      } catch (error) {
+        console.error('Error loading PDF:', error);
+        pdfViewer.innerHTML = '<p>Error loading PDF.</p>';
+      }
+    }
+
+    function openEmail() {
+      const mailtoLink = `mailto:adam@athenacontractinginc.com,bill@athenacontractinginc.com?subject=1044 Market Daily Log`;
+      window.open(mailtoLink);
+    }
+
+    window.loadSelectedPDF = loadSelectedPDF; 
+    window.openEmail = openEmail; 
   </script>
 </body>
 </html>
