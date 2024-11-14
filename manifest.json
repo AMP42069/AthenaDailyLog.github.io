@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>PDF Viewer</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+      <style>
+         body {
+         margin: 0;
+         font-family: 'Roboto', sans-serif;
+         background-color: #f2f2f7;
+         }
+         #container {
+         margin: 20px;
+         padding: 20px;
+         background-color: #fff;
+         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+         border-radius: 8px;
+         text-align: center;
+         }
+         .header {
+         margin-bottom: 20px;
+         }
+         .header img {
+         max-width: 100%;
+         height: auto;
+         }
+         .instructions {
+         font-size: 14px;
+         color: #555;
+         margin-top: 10px;
+         }
+         label {
+         font-weight: bold;
+         display: block;
+         margin-bottom: 8px;
+         color: #c00;
+         }
+         select {
+         width: 100%;
+         padding: 12px;
+         border: 1px solid #c00;
+         border-radius: 4px;
+         box-sizing: border-box;
+         appearance: none;
+         background-color: #fff;
+         margin-bottom: 16px;
+         font-size: 16px;
+         }
+         button {
+         background-color: #d9a514;
+         color: white;
+         border: none;
+         padding: 12px;
+         border-radius: 4px;
+         cursor: pointer;
+         width: 100%;
+         font-size: 16px;
+         margin-bottom: 16px;
+         transition: background-color 0.3s ease;
+         }
+         button:hover {
+         background-color: #c99513;
+         }
+         #adobe-dc-view {
+         width: 100%;
+         height: 75vh;
+         border: 1px solid #c00;
+         border-radius: 4px;
+         margin-bottom: 50px;
+         overflow: auto;
+         }
+         h1 {
+         color: #c00;
+         }
+         button.email-button {
+         background-color: #000;
+         }
+      </style>
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+   </head>
+   <body>
+      <div id="container">
+         <div class="header">
+            <img src="athena-logo.png" alt="Athena Contracting, Inc. Logo">
+            <p class="Signatures">1. Select a form and complete it. All codes and their description are on page 2 of the form.</p>
+            <p class="Signatures">2. Download the finished form to your device.</p>
+            <p class="Signatures">3. If a signature is required for T&M open the completed form on your device with docusign to collect the required signatures.</p>
+            <p class="Signatures">4. Click "Email to Office." The email will automatically include the recipient's address and the subject line.</p>
+            <p class="Signatures">5. Attach the completed form, along with pictures of ALL receipts, delivery tickets, etc. for the day.</p>
+            <p class="Signatures">6. Include at least two photos showing the work performed.</p>
+            <p class="Signatures">7. Once everything is attached, simply send the email.</p>
+         </div>
+         <label for="pdfSelect">Select a Form:</label>
+         <select id="pdfSelect">
+            <option value="1044_Market.pdf">1044 Market Daily Log</option>
+            <option value="Speed_Cushions.pdf">City Wide Speed Cushions Daily Log</option>
+            <option value="HCC3.pdf">Health Center 3 Daily Log</option>
+         </select>
+         <button onclick="loadPDF()">Load PDF</button>
+         <button onclick="sendEmail()" class="email-button">Email to Office</button>
+         <div id="adobe-dc-view"></div>
+      </div>
+      <script>
+         let adobeDCView;
+         
+         document.addEventListener("adobe_dc_view_sdk.ready", function() {
+           adobeDCView = new AdobeDC.View({
+             clientId: "300eb4538c6e4bcc9bcf0305e1b048e6", 
+             divId: "adobe-dc-view"
+           });
+         
+           adobeDCView.registerCallback(
+             AdobeDC.View.Enum.CallbackType.EVENT_LISTENER,
+             function(event) {
+               if (event.type === AdobeDC.View.Enum.EventType.DOCUMENT_OPENED) {
+                 adobeDCView.executeCommand(AdobeDC.View.Enum.CommandName.SHOW_SIGNATURE_FLOW);
+               }
+             },
+             { type: AdobeDC.View.Enum.EventType.DOCUMENT_OPENED }
+           );
+         });
+         
+         async function loadPDF() {
+           const pdfSelect = document.getElementById("pdfSelect");
+           const pdfURL = pdfSelect.value;
+           const timestamp = new Date().getTime(); // Get current timestamp
+         
+           try {
+             const previewConfig = {
+               showSaveButton: false,
+               showPrintButton: false,
+               zoom: 'FitWidth' 
+             };
+             await adobeDCView.previewFile(
+               {
+                 content: { location: { url: pdfURL + '?v=' + timestamp } }, // Append timestamp here
+                 metaData: { fileName: pdfURL }
+               },
+               previewConfig
+             );
+             document.getElementById("adobe-dc-view").scrollIntoView();
+           } catch (error) {
+             console.error("Error loading PDF:", error);
+           }
+         }
+         
+         function sendEmail() {
+           const pdfSelect = document.getElementById("pdfSelect");
+           const selectedPDF = pdfSelect.value;
+           let recipientEmails = "";
+         
+           switch (selectedPDF) {
+             case "1044_Market.pdf":
+               recipientEmails = "adam@athenacontractinginc.com, barnold@athenacontractinginc.com, loretta@athenacontractinginc.com, diana@athenacontractinginc.com, carol@athenacontractinginc.com";  
+               break;
+             case "Speed_Cushions.pdf":
+               recipientEmails = "adam@athenacontractinginc.com, barnold@athenacontractinginc.com, loretta@athenacontractinginc.com, diana@athenacontractinginc.com, carol@athenacontractinginc.com";  
+               break;
+             case "HCC3.pdf":
+               recipientEmails = "adam@athenacontractinginc.com, barnold@athenacontractinginc.com, loretta@athenacontractinginc.com, diana@athenacontractinginc.com, carol@athenacontractinginc.com";  
+               break;
+             default:
+               alert("Please select a PDF first.");
+               return;
+           }
+         
+           const pdfName = pdfSelect.options[pdfSelect.selectedIndex].text;
+           const today = new Date();
+           const dateString = today.toLocaleDateString();
+           const subject = `${pdfName} - ${dateString}`;
+         
+           const mailtoLink = `mailto:${recipientEmails}?subject=${encodeURIComponent(subject)}`;
+           window.location.href = mailtoLink;
+         }
+      </script>
+   </body>
+</html>
