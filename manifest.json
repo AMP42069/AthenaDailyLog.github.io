@@ -17,5 +17,18 @@
   "display": "standalone",
   "background_color": "#f2f2f7",
   "theme_color": "#d9a514",
-  "scope": "/" 
+  "scope": "/",
+  "screenshots": [
+    {
+      "src": "screenshot-1280x720.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshot-720x1280.png",
+      "sizes": "720x1280",
+      "type": "image/png"
+    }
+  ]
 }
