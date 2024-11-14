@@ -2,7 +2,7 @@ const CACHE_NAME = 'athena-pdf-viewer-cache-v1';
 const urlsToCache = [
   '/',
   'index.html',
-  'athena-logo.png',
+  'athena-logo.png', 
   '1044_Market.pdf',
   'Speed_Cushions.pdf',
   'HCC3.pdf',
