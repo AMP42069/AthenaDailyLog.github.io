@@ -4,6 +4,7 @@
       <title>PDF Viewer</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+      <link rel="manifest" href="manifest.json">
       <style>
          body {
          margin: 0;
@@ -172,6 +173,18 @@
          
            const mailtoLink = `mailto:${recipientEmails}?subject=${encodeURIComponent(subject)}`;
            window.location.href = mailtoLink;
+         }
+         
+         if ('serviceWorker' in navigator) {
+           window.addEventListener('load', function() {
+             navigator.serviceWorker.register('service-worker.js')
+               .then(function(registration) {
+                 console.log('Service Worker registered with scope:', registration.scope);
+               })
+               .catch(function(error) {
+                 console.log('Service Worker registration failed:', error);
+               });
+           });
          }
       </script>
    </body>
