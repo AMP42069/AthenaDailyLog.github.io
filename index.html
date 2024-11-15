@@ -150,11 +150,11 @@
 
       try {
         const previewConfig = {
-          showSaveButton: true,
+          enableFormFilling: true,
+          showSaveButton: false,
           showPrintButton: false,
           zoom: 'FitWidth',
-          defaultViewMode: 'SINGLE_PAGE',// Show one page at a time
-          enableFormFilling: true
+          defaultViewMode: 'SINGLE_PAGE'// Show one page at a time
         };
         await adobeDCView.previewFile(
           {
