@@ -1,4 +1,4 @@
-const CACHE_NAME = 'athena-pdf-viewer-cache-v1';
+const CACHE_NAME = 'athena-pdf-viewer-cache-v2'; 
 const urlsToCache = [
   '/',
   'index.html',
@@ -6,8 +6,8 @@ const urlsToCache = [
   '1044_Market.pdf',
   'Speed_Cushions.pdf',
   'HCC3.pdf',
-  'https://documentcloud.adobe.com/view-sdk/main.js',
-  'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'
+  'https://documentcloud.adobe.com/view-sdk/main.js', 
+  // Consider downloading Roboto font files and caching them locally
 ];
 
 self.addEventListener('install', function(event) {
@@ -22,12 +22,19 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('fetch', function(event) {
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request) // Try network first
       .then(function(response) {
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
+        // Cache the new response (for next time)
+        const responseToCache = response.clone(); 
+        caches.open(CACHE_NAME)
+          .then(function(cache) {
+            cache.put(event.request, responseToCache);
+          });
+        return response;
+      })
+      .catch(function() {
+        // Network request failed, try to get it from the cache.
+        return caches.match(event.request);
       })
   );
 });
