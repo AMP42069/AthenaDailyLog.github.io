@@ -186,7 +186,7 @@
       const dateString = today.toLocaleDateString();
       const subject = `${pdfName} - ${dateString}`;
 
-      const mailtoLink = `mailto:<span class="math-inline">\{recipientEmails\}?subject\=</span>{encodeURIComponent(subject)}`;
+      const mailtoLink = `mailto:${recipientEmails}?subject=${encodeURIComponent(subject)}`;
       window.location.href = mailtoLink;
     }
 
