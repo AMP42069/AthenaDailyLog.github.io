@@ -149,10 +149,11 @@
       const timestamp = new Date().getTime(); // Get current timestamp
 
       try {
-        const previewConfig = {
-          enableFormFilling: true,
-          defaultViewMode: 'SINGLE_PAGE'// Show one page at a time
-        };
+             const previewConfig = {
+               showSaveButton: false,
+               showPrintButton: false,
+               zoom: 'FitWidth' 
+             };
         await adobeDCView.previewFile(
           {
             content: { location: { url: pdfURL + '?v=' + timestamp } }, // Append timestamp here
